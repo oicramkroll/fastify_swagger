@@ -1,0 +1,44 @@
+{
+  "name": "fastify_swagger",
+  "version": "1.0.0",
+  "description": "Este projeto é uma API completa para gerenciamento de usuários, desenvolvida com **Fastify**, **TypeScript** e padrões de arquitetura seguindo **SOLID**.",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+
+    "build": "tsc",
+    "start": "node dist/server.js",
+
+    "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+
+    "check": "npm run lint && npm run typecheck && npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oicramkroll/fastify_swagger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oicramkroll/fastify_swagger/issues"
+  },
+  "homepage": "https://github.com/oicramkroll/fastify_swagger#readme",
+
+  "dependencies": {
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
+    "fastify": "^5.6.2",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.9.3"
+  }
+}
