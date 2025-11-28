@@ -1,57 +1,59 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { z } from "zod";
 
-import { makeUpdateUserUseCase } from '../../application/factories/make-update-user-use-case';
+import { makeUpdateUserUseCase } from "../../application/factories/make-update-user-use-case";
 
 export async function updateUserController(app: FastifyInstance) {
   const paramsSchema = z.object({
     id: z.string().uuid(),
   });
 
-  const bodySchema = z.object({
-    name: z.string().min(1).optional(),
-    email: z.string().email().optional(),
-  }).refine((data) => data.name || data.email, {
-    message: 'É necessário informar ao menos um campo para atualização.',
-  });
+  const bodySchema = z
+    .object({
+      name: z.string().min(1).optional(),
+      email: z.string().email().optional(),
+    })
+    .refine((data) => data.name || data.email, {
+      message: "É necessário informar ao menos um campo para atualização.",
+    });
 
   app.put(
-    '/users/:id',
+    "/users/:id",
     {
       schema: {
-        tags: ['Users'],
-        summary: 'Atualiza um usuário pelo ID',
+        tags: ["Users"],
+        summary: "Atualiza um usuário pelo ID",
         params: {
-          type: 'object',
+          type: "object",
           properties: {
-            id: { type: 'string', format: 'uuid' },
+            id: { type: "string", format: "uuid" },
           },
-          required: ['id'],
+          required: ["id"],
         },
         body: {
-          type: 'object',
+          type: "object",
           properties: {
-            name: { type: 'string' },
-            email: { type: 'string' },
+            name: { type: "string" },
+            email: { type: "string" },
           },
         },
         response: {
           200: {
-            description: 'Usuário atualizado',
-            type: 'object',
+            description: "Usuário atualizado",
+            type: "object",
             properties: {
-              id: { type: 'string' },
-              name: { type: 'string' },
-              email: { type: 'string' },
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', nullable: true },
+              id: { type: "string" },
+              name: { type: "string" },
+              email: { type: "string" },
+              createdAt: { type: "string", format: "date-time" },
+              updatedAt: { type: "string", nullable: true },
             },
           },
           404: {
-            description: 'Usuário não encontrado',
-            type: 'object',
+            description: "Usuário não encontrado",
+            type: "object",
             properties: {
-              message: { type: 'string' },
+              message: { type: "string" },
             },
           },
         },
@@ -65,7 +67,7 @@ export async function updateUserController(app: FastifyInstance) {
       const { user } = await updateUser.execute({ id, data: body });
 
       if (!user) {
-        return reply.status(404).send({ message: 'Usuário não encontrado' });
+        return reply.status(404).send({ message: "Usuário não encontrado" });
       }
 
       return reply.status(200).send(user);

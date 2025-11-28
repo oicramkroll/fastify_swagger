@@ -1,0 +1,92 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-api
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fastify-api
+  namespace: app-api
+  labels:
+    app: fastify-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fastify-api
+  template:
+    metadata:
+      labels:
+        app: fastify-api
+    spec:
+      containers:
+        - name: fastify-api
+          image: __AWS_ACCOUNT__.dkr.ecr.__AWS_REGION__.amazonaws.com/__AWS_REPOSITORY__:__IMAGE_TAG__
+          ports:
+            - containerPort: 8080
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fastify-api
+  namespace: app-api
+spec:
+  type: ClusterIP
+  selector:
+    app: fastify-api
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: fastify-api
+  namespace: app-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: fastify-api
+  minReplicas: 1
+  maxReplicas: 5
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fastify-api
+  namespace: app-api
+  annotations:
+    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/group.name: project-zero-api
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP":80,"HTTPS":443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
+    alb.ingress.kubernetes.io/target-type: ip
+spec:
+  ingressClassName: alb
+  rules:
+    - host: fastify-api.project-zero.work
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: fastify-api
+                port:
+                  number: 80

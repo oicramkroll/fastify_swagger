@@ -1,8 +1,5 @@
-import { User } from '../../domain/entities/user';
-import {
-  CreateUserData,
-  UserRepository,
-} from '../../domain/repositories/user-repository';
+import { User } from "../../domain/entities/user";
+import { CreateUserData, UserRepository } from "../../domain/repositories/user-repository";
 
 export interface CreateUserInput {
   name: string;

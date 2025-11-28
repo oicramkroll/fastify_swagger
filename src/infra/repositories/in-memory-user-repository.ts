@@ -1,11 +1,11 @@
-import { randomUUID } from 'crypto';
+import { randomUUID } from "crypto";
 
-import { User } from '../../domain/entities/user';
+import { User } from "../../domain/entities/user";
 import {
   CreateUserData,
   UpdateUserData,
   UserRepository,
-} from '../../domain/repositories/user-repository';
+} from "../../domain/repositories/user-repository";
 
 export class InMemoryUserRepository implements UserRepository {
   private users = new Map<string, User>();

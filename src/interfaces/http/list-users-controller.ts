@@ -1,25 +1,25 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { makeListUsersUseCase } from '../../application/factories/make-list-users-use-case';
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { makeListUsersUseCase } from "../../application/factories/make-list-users-use-case";
 
 export async function listUsersController(app: FastifyInstance) {
   app.get(
-    '/users',
+    "/users",
     {
       schema: {
-        tags: ['Users'],
-        summary: 'Lista todos os usuários',
+        tags: ["Users"],
+        summary: "Lista todos os usuários",
         response: {
           200: {
-            description: 'Lista de usuários',
-            type: 'array',
+            description: "Lista de usuários",
+            type: "array",
             items: {
-              type: 'object',
+              type: "object",
               properties: {
-                id: { type: 'string' },
-                name: { type: 'string' },
-                email: { type: 'string' },
-                createdAt: { type: 'string', format: 'date-time' },
-                updatedAt: { type: 'string', nullable: true },
+                id: { type: "string" },
+                name: { type: "string" },
+                email: { type: "string" },
+                createdAt: { type: "string", format: "date-time" },
+                updatedAt: { type: "string", nullable: true },
               },
             },
           },

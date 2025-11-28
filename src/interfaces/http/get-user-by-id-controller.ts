@@ -1,7 +1,7 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { z } from "zod";
 
-import { makeGetUserByIdUseCase } from '../../application/factories/make-get-user-by-id-use-case';
+import { makeGetUserByIdUseCase } from "../../application/factories/make-get-user-by-id-use-case";
 
 export async function getUserByIdController(app: FastifyInstance) {
   const paramsSchema = z.object({
@@ -9,35 +9,35 @@ export async function getUserByIdController(app: FastifyInstance) {
   });
 
   app.get(
-    '/users/:id',
+    "/users/:id",
     {
       schema: {
-        tags: ['Users'],
-        summary: 'Busca um usuário pelo ID',
+        tags: ["Users"],
+        summary: "Busca um usuário pelo ID",
         params: {
-          type: 'object',
+          type: "object",
           properties: {
-            id: { type: 'string', format: 'uuid' },
+            id: { type: "string", format: "uuid" },
           },
-          required: ['id'],
+          required: ["id"],
         },
         response: {
           200: {
-            description: 'Usuário encontrado',
-            type: 'object',
+            description: "Usuário encontrado",
+            type: "object",
             properties: {
-              id: { type: 'string' },
-              name: { type: 'string' },
-              email: { type: 'string' },
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', nullable: true },
+              id: { type: "string" },
+              name: { type: "string" },
+              email: { type: "string" },
+              createdAt: { type: "string", format: "date-time" },
+              updatedAt: { type: "string", nullable: true },
             },
           },
           404: {
-            description: 'Usuário não encontrado',
-            type: 'object',
+            description: "Usuário não encontrado",
+            type: "object",
             properties: {
-              message: { type: 'string' },
+              message: { type: "string" },
             },
           },
         },
@@ -50,7 +50,7 @@ export async function getUserByIdController(app: FastifyInstance) {
       const { user } = await getUserById.execute({ id });
 
       if (!user) {
-        return reply.status(404).send({ message: 'Usuário não encontrado' });
+        return reply.status(404).send({ message: "Usuário não encontrado" });
       }
 
       return reply.status(200).send(user);

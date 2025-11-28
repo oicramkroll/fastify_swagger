@@ -1,8 +1,7 @@
-import { FastifyInstance } from 'fastify';
-import { z } from 'zod';
+import { FastifyInstance } from "fastify";
+import { z } from "zod";
 
-import { makeCreateUserUseCase } from '../../application/factories/make-create-user-use-case';
-import { CreateUserUseCase } from '../../application/use-cases/create-user-use-case';
+import { makeCreateUserUseCase } from "../../application/factories/make-create-user-use-case";
 
 export async function createUserController(app: FastifyInstance) {
   const bodySchema = z.object({
@@ -11,29 +10,29 @@ export async function createUserController(app: FastifyInstance) {
   });
 
   app.post(
-    '/users',
+    "/users",
     {
       schema: {
-        tags: ['Users'],
-        summary: 'Cria um novo usuário',
+        tags: ["Users"],
+        summary: "Cria um novo usuário",
         body: {
-          type: 'object',
+          type: "object",
           properties: {
-            name: { type: 'string' },
-            email: { type: 'string' },
+            name: { type: "string" },
+            email: { type: "string" },
           },
-          required: ['name', 'email'],
+          required: ["name", "email"],
         },
         response: {
           201: {
-            description: 'Usuário criado',
-            type: 'object',
+            description: "Usuário criado",
+            type: "object",
             properties: {
-              id: { type: 'string' },
-              name: { type: 'string' },
-              email: { type: 'string' },
-              createdAt: { type: 'string', format: 'date-time' },
-              updatedAt: { type: 'string', nullable: true },
+              id: { type: "string" },
+              name: { type: "string" },
+              email: { type: "string" },
+              createdAt: { type: "string", format: "date-time" },
+              updatedAt: { type: "string", nullable: true },
             },
           },
         },

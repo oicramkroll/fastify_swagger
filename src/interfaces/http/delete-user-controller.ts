@@ -1,7 +1,7 @@
-import { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
-import { z } from 'zod';
+import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
+import { z } from "zod";
 
-import { makeDeleteUserUseCase } from '../../application/factories/make-delete-user-use-case';
+import { makeDeleteUserUseCase } from "../../application/factories/make-delete-user-use-case";
 
 export async function deleteUserController(app: FastifyInstance) {
   const paramsSchema = z.object({
@@ -9,28 +9,28 @@ export async function deleteUserController(app: FastifyInstance) {
   });
 
   app.delete(
-    '/users/:id',
+    "/users/:id",
     {
       schema: {
-        tags: ['Users'],
-        summary: 'Remove um usuário pelo ID',
+        tags: ["Users"],
+        summary: "Remove um usuário pelo ID",
         params: {
-          type: 'object',
+          type: "object",
           properties: {
-            id: { type: 'string', format: 'uuid' },
+            id: { type: "string", format: "uuid" },
           },
-          required: ['id'],
+          required: ["id"],
         },
         response: {
           204: {
-            description: 'Usuário removido com sucesso',
-            type: 'null',
+            description: "Usuário removido com sucesso",
+            type: "null",
           },
           404: {
-            description: 'Usuário não encontrado',
-            type: 'object',
+            description: "Usuário não encontrado",
+            type: "object",
             properties: {
-              message: { type: 'string' },
+              message: { type: "string" },
             },
           },
         },
@@ -43,7 +43,7 @@ export async function deleteUserController(app: FastifyInstance) {
       const { success } = await deleteUser.execute({ id });
 
       if (!success) {
-        return reply.status(404).send({ message: 'Usuário não encontrado' });
+        return reply.status(404).send({ message: "Usuário não encontrado" });
       }
 
       return reply.status(204).send();
