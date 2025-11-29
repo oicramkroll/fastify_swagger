@@ -30,6 +30,12 @@ async function buildServer() {
     return { status: "ok" };
   });
 
+  // redirecionar root para /docs faz com que o swagger seja a página inicial
+  app.get('/', async (request, reply) => {
+    return reply.redirect('/docs')
+  });
+
+
   return app;
 }
 
