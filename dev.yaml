@@ -24,7 +24,7 @@ spec:
         - name: fastify-api
           image: __AWS_ACCOUNT__.dkr.ecr.__AWS_REGION__.amazonaws.com/__AWS_REPOSITORY__:__IMAGE_TAG__
           ports:
-            - containerPort: 8080
+            - containerPort: 3000
           resources:
             requests:
               cpu: "100m"
@@ -44,7 +44,7 @@ spec:
     app: fastify-api
   ports:
     - port: 80
-      targetPort: 8080
+      targetPort: 3000
 ---
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
